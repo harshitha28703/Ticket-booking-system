@@ -1,0 +1,40 @@
+create database train_management;
+use train_management;
+create table train
+(
+Ticket_number INTEGER AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR(30) NOT NULL,
+Age INTEGER CHECK(Age BETWEEN 0 AND 200),
+Contact_number INTEGER NOT NULL,
+Departure VARCHAR (100) NOT NULL,
+Destination VARCHAR (100) NOT NULL,
+Gender VARCHAR (10) NOT NULL,
+train_number INTEGER NOT NULL,
+time_of_arrival VARCHAR (30) NOT NULL,
+time_of_departure VARCHAR(30) NOT NULL,
+time_of_reaching_destination VARCHAR (100) NOT NULL,
+day_date VARCHAR(100) NOT NULL,
+aadhar_ID INTEGER NOT NULL
+);
+ALTER TABLE train AUTO_INCREMENT=1000002;
+
+create table account_info
+(
+full_name CHAR(20) NOT NULL,
+username VARCHAR(50) primary key,
+password VARCHAR(50) NOT NULL,
+age INTNOT NULL,
+contact_number INT NOT NULL,
+gender VARCHAR(20)NOT NULL,
+adhaar_id VARCHAR(30) NOT NULL
+);
+CREATE TABLE TRAIN_INFO
+
+10
+
+(
+train1 varchar(50)NOT NULL,
+train2 varchar(50) NOT NULL,
+train3 varchar(50) NOT NULL,
+train4 varchar(50) NOT NULL
+);
