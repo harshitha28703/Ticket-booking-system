@@ -1,0 +1,418 @@
+from tkinter import *
+from tkinter.font import Font
+import os
+import mysql.connector as mc
+global myconnection
+
+11
+
+global mycursor
+
+myconnection = mc.connect(host = &#39;localhost&#39;, user = &#39;root&#39;, password =
+&#39;amaatra&#39;,charset=&#39;utf8&#39;, database=&#39;train_management&#39;)
+if(myconnection.is_connected() == False):
+print(&quot;not able to connect to the database&quot;)
+else:
+print(&quot;Connected to database successfully&quot;)
+mycursor = myconnection.cursor()
+
+mycursor.execute(&quot; use train_management&quot;)
+
+def c_user():
+global screen7
+screen7=toplevel(screen)
+screen7.title(&quot; Ticket Cancellation&quot;)
+screen7.geometry(&quot;300x250&quot;)
+screen7.state(&#39;zoomed&#39;)
+font1=Font(family=&#39;aleo&#39;,size=13,slant=&#39;roman&#39;)
+picture=PhotoImage(file=&quot;C:\\Users\\Anagha\\Desktop\\proj\\ticket
+cancellation.png&quot;)
+background=Label(screen7,image=picture)
+background.image=picture
+background.place(x=0,y=0,relwidth=1,relheight=1)
+
+12
+
+def date_time():
+global screen8
+screen8=toplevel(screen)
+screen8.title(&quot; redirect&quot;)
+screen8.geometry(&quot;300x250&quot;)
+screen8.state(&#39;zoomed&#39;)
+font1=Font(family=&#39;aleo&#39;,size=13,slant=&#39;roman&#39;)
+Label(screen8,text=&quot;enter date and time according to your departure&quot;)
+mycursor.execute(&quot;select * from train_info&quot;)
+f=mycursor.fetchall()
+for x in f:
+if(x[2]==destination_info):
+Label(screen8,text=&quot;train found!&quot;,fg=&quot;green&quot;,font=(&quot;calibri&quot;,11)).pack()
+d=x[3]
+d.insert(0)
+else:
+Label(screen8,text=&quot;train not found!&quot;,fg=&quot;red&quot;,font=(&quot;calibri&quot;,11)).pack()
+
+myconnection.commit()
+
+def buser():
+global Name1_info
+global Age1_info
+global Contact_number1_info
+
+13
+
+global Gender1_info
+global Departure_info
+global Destination_info
+
+Name1_info=Name1_entry.get()
+Age1_info=Age1_entry.get()
+Contact_number1_info=Contact_number1_entry.get()
+Gender1_info=Gender1_entry.get()
+
+Departure_info=Departure_entry.get()
+Destination_info=Destination_entry.get()
+
+Name1_entry.delete(0,END)
+Age1_entry.delete(0,END)
+Contact_number1_entry.delete(0,END)
+Gender1_entry.delete(0,END)
+
+Departure_entry.delete(0,END)
+Destination_entry.delete(0,END)
+
+if Departure_info==&quot;&quot; or Name1_info==&quot;&quot; or Age1_info==&quot;&quot; or
+Contact_number1_info==&quot;&quot; or Destination_info==&quot;&quot;:
+
+14
+
+Label(screen6,text=&quot;ERROR! FILL ALL **
+FIELDS&quot;,fg=&quot;red&quot;,font=(&quot;times&quot;,11)).pack()
+else:
+insertquery=&#39;&#39;&#39;INSERT INTO
+train(name,age,Contact_number,departure,destination)
+VALUES
+(&#39;{}&#39;,{},{},&#39;{}&#39;,&#39;{}&#39;);&#39;&#39;&#39;.format(Name1_info,Age1_info,Contact_number1_info,Gender1_in
+fo,Departure_info,Destination_info)
+mycursor.execute(insertquery)
+
+myconnection.commit()
+
+def book_your_ticket():
+global screen6
+
+screen6=Toplevel(screen)
+screen6.title(&quot;Book your ticket&quot;)
+screen6.geometry(&quot;300x250&quot;)
+screen6.state(&#39;zoomed&#39;)
+font1=Font(family=&#39;aleo&#39;,size=13,slant=&#39;roman&#39;)
+
+picture=PhotoImage(file=&quot;C:\\Users\\Anagha\\Desktop\\proj\\main form
+template.png&quot;)
+background=Label(screen6,image=picture)
+background.image=picture
+background.place(x=0,y=0,relwidth=1,relheight=1)
+
+15
+
+global Name1
+global Gender1
+global Contact_number1
+global Age1
+global Departure
+global Destination
+
+global Name1_entry
+global Age1_entry
+global Contact_number1_entry
+global Gender1_entry
+global Departure_entry
+global Destination_entry
+
+Name1=StringVar()
+Age1=StringVar()
+
+Contact_number1=StringVar()
+Gender1=StringVar()
+Departure=StringVar()
+Destination=StringVar()
+Date=StringVar()
+Label(screen6,text=&quot;Please Enter the Following
+Details:&quot;,fg=&#39;blue&#39;).place(x=600,y=30)
+Label(screen6, text=&quot;Enter name in the format first name-last
+name&quot;,fg=&#39;blue&#39;).place(x=600,y=70)
+
+16
+
+Label(screen6,text=&quot;FullName**:&quot;).place(x=600,y=170)
+Name1_entry=Entry(screen6,textvariable=Name1)
+Name1_entry.place(x=600,y=200)
+
+Label(screen6,text=&quot;Age**:&quot;).place(x=600,y=240)
+Age1_entry=Entry(screen6,textvariable=Age1)
+Age1_entry.place(x=600,y=270)
+
+Label(screen6,text=&quot;Contact Number:&quot;).place(x=600,y=310)
+Contact_number1_entry=Entry(screen6,textvariable=Contact_number1)
+Contact_number1_entry.place(x=600,y=340)
+
+Label(screen6,text=&quot;Gender**:&quot;).place(x=800,y=100)
+Gender1_entry=Entry(screen6,textvariable=Gender1)
+Gender1_entry.place(x=800,y=130)
+
+Label(screen6,text=&quot;Departure**:&quot;).place(x=800,y=170)
+Departure_entry=Entry(screen6,textvariable=Departure)
+Departure_entry.place(x=800,y=200)
+
+Label(screen6,text=&quot;Destination**:&quot;).place(x=800,y=240)
+Destination_entry=Entry(screen6,textvariable=Destination)
+Destination_entry.place(x=800,y=270)
+Button(screen6,text=&quot;book&quot;,width=&quot;30&quot;,height=&quot;2&quot;,font=font1,command=buser).plac
+e(x=820,y=340)
+
+17
+
+def delete2():
+screen3.destroy()
+def delete3():
+screen4.destroy()
+def delete4():
+screen5.destroy()
+def login_success():
+global screen3
+screen3=Toplevel(screen)
+screen3.title(&quot;welcome to account&quot;)
+screen3.geometry(&quot;300x250&quot;)
+screen3.state(&#39;zoomed&#39;)
+font1=Font(family=&#39;aleo&#39;,size=13,slant=&#39;roman&#39;)
+
+picture=PhotoImage(file=&quot;C:\\Users\\Anagha\\Desktop\\proj\\dashboard.png&quot;)
+background=Label(screen3,image=picture)
+background.image=picture
+background.place(x=0,y=0,relwidth=1,relheight=1)
+Label(screen3,text=&quot;RAILWAY TICKET BOOKING
+SYSTEM&quot;,fg=&quot;white&quot;,bg=&quot;black&quot;,font=(&quot;times&quot;,20)).place(x=550,y=0)
+
+Button(screen3,text=&quot;Book Your
+Ticket&quot;,width=&quot;30&quot;,height=&quot;2&quot;,font=font1,command=book_your_ticket).place(x=650,
+y=200)
+
+18
+
+Button(screen3,text=&quot;Cancel
+Tickets&quot;,width=&quot;30&quot;,height=&quot;2&quot;,font=font1,command=cancel_your_ticket).place(x=65
+0,y=270)
+Button(screen3,text=&quot;Check Your
+Ticket&quot;,width=&quot;30&quot;,height=&quot;2&quot;,font=font1).place(x=650,y=340)
+
+def password_notrecognized():
+global screen4
+screen4=Toplevel(screen)
+screen4.title(&quot;Redirect&quot;)
+screen4.geometry(&quot;150x100&quot;)
+Label(screen4,text=&quot;Try Again!&quot;,fg=&quot;red&quot;).pack()
+Button(screen4,text=&quot;OK&quot;,width=10,height=1,command=delete3).pack()
+def user_not_found():
+global screen5
+screen5=Toplevel(screen)
+screen5.title(&quot;Redirect&quot;)
+screen5.geometry(&quot;150x100&quot;)
+Label(screen5,text=&quot;Try Again!&quot;,fg=&quot;red&quot;).pack()
+Button(screen5,text=&quot;OK&quot;,width=10,height=1,command=delete4).pack()
+
+def ruser():
+
+username_info=username.get()
+
+19
+
+password_info=password.get()
+Name_info=Name.get()
+Age_info=Age.get()
+Contact_number_info=Contact_number.get()
+Gender_info=Gender.get()
+aadhar_ID_info=aadhar_ID.get()
+username_entry.delete(0,END)
+password_entry.delete(0,END)
+Name_entry.delete(0,END)
+Age_entry.delete(0,END)
+Contact_number_entry.delete(0,END)
+Gender_entry.delete(0,END)
+aadhar_ID_entry.delete(0,END)
+
+if username_info==&quot;&quot; or password_info==&quot;&quot; or Name_info==&quot;&quot; or Age_info==&quot;&quot; or
+Contact_number_info==&quot;&quot;:
+Label(screen1,text=&quot;ERROR! FILL ALL **
+FIELDS&quot;,fg=&quot;red&quot;,font=(&quot;times&quot;,11)).pack()
+else:
+insertquery=&#39;&#39;&#39;INSERT INTO
+account_info(full_name,username,password,age,Contact_number,gender,adhaar_id)
+VALUES
+(&#39;{}&#39;,&#39;{}&#39;,&#39;{}&#39;,{},{},&#39;{}&#39;,{});&#39;&#39;&#39;.format(Name_info,username_info,password_info,Age_info,
+Contact_number_info,Gender_info,aadhar_ID_info)
+mycursor.execute(insertquery)
+print(insertquery)
+myconnection.commit()
+
+20
+
+def luser():
+username1=username_verify.get()
+password1=password_verify.get()
+username_entry1.delete(0,END)
+password_entry1.delete(0,END)
+if username1==&quot;&quot; or password1==&quot;&quot;:
+Label(screen2,text=&quot;ERROR! FILL ALL **
+FIELDS&quot;,fg=&quot;red&quot;,font=(&quot;times&quot;,11)).pack()
+else:
+mycursor.execute(&quot;select * from account_info&quot;)
+f=mycursor.fetchall()
+for x in f:
+if(x[1]==username1):
+Label(screen2,text=&quot;Username found!&quot;,fg=&quot;green&quot;,font=(&quot;calibri&quot;,11)).pack()
+if(x[2]==password1):
+temp=login_success()
+return temp
+else:
+temp1=password_notrecognized()
+return temp1
+
+else:
+user_not_found()
+
+myconnection.commit()
+
+21
+
+def register():
+global screen1
+screen1=Toplevel(screen)
+screen1.title(&quot;Register&quot;)
+screen1.geometry(&quot;300x250&quot;)
+screen1.state(&#39;zoomed&#39;)
+picture=PhotoImage(file=&quot;C:\\Users\\Anagha\\Desktop\\proj\\registration.png&quot;)
+background=Label(screen1,image=picture)
+background.image=picture
+background.place(x=0,y=0,relwidth=1,relheight=1)
+
+global username
+global password
+global username_entry
+global password_entry
+global Name
+global Name_entry
+global Age
+global Age_entry
+global Contact_number
+global Contact_number_entry
+
+global Gender
+global Gender_entry
+
+22
+
+global aadhar_ID
+global aadhar_ID_entry
+
+Name=StringVar()
+Age=StringVar()
+Contact_number=StringVar()
+
+Gender=StringVar()
+
+aadhar_ID=StringVar()
+
+username=StringVar()
+password=StringVar()
+Label(screen1,text=&quot;Please Enter the Following
+Details:&quot;,fg=&#39;blue&#39;).place(x=600,y=30)
+
+Label(screen1,text=&quot;Unique Username**:&quot;).place(x=600,y=190)
+username_entry=Entry(screen1,textvariable=username)
+username_entry.place(x=600,y=210)
+Label(screen1,text=&quot;Password**:&quot;).place(x=600,y=260)
+password_entry=Entry(screen1,textvariable=password)
+password_entry.place(x=600,y=280)
+Label(screen1,text=&quot;FullName**:&quot;).place(x=600,y=100)
+Name_entry=Entry(screen1,textvariable=Name)
+Name_entry.place(x=600,y=130)
+Label(screen1,text=&quot;Age**:&quot;).place(x=600,y=310)
+Age_entry=Entry(screen1,textvariable=Age)
+Age_entry.place(x=600,y=340)
+
+23
+
+Label(screen1,text=&quot;Contact Number:&quot;).place(x=800,y=100)
+Contact_number_entry=Entry(screen1,textvariable=Contact_number)
+Contact_number_entry.place(x=800,y=130)
+Label(screen1,text=&quot;Gender**:&quot;).place(x=800,y=170)
+Gender_entry=Entry(screen1,textvariable=Gender)
+Gender_entry.place(x=800,y=200)
+Label(screen1,text=&quot;Aadhar Id**:&quot;).place(x=800,y=240)
+aadhar_ID_entry=Entry(screen1,textvariable=aadhar_ID)
+aadhar_ID_entry.place(x=800,y=270)
+
+Button(screen1,text =
+&quot;Register&quot;,width=10,height=1,font=bigfont,command=ruser).place(x=800,y=310)
+
+def login():
+global screen2
+screen2=Toplevel(screen)
+screen2.title(&quot;Login&quot;)
+screen2.state(&#39;zoomed&#39;)
+screen2.geometry(&quot;300x250&quot;)
+picture=PhotoImage(file=&quot;C:\\Users\\Anagha\\Desktop\\proj\\login.png&quot;)
+background=Label(screen2,image=picture)
+background.image=picture
+background.place(x=0,y=0,relwidth=1,relheight=1)
+
+Label(screen2,text=&quot;Please Enter the Following
+Details:&quot;,font=bigfont).place(x=600,y=150)
+
+24
+
+global username_verify
+global password_verify
+username_verify=StringVar()
+password_verify=StringVar()
+global username_entry1
+global password_entry1
+
+Label(screen2,text=&quot;Username**&quot;).place(x=600,y=190)
+username_entry1=Entry(screen2,textvariable=username_verify)
+username_entry1.place(x=600,y=210)
+
+Label(screen2,text=&quot;Password**&quot;).place(x=600,y=260)
+password_entry1=Entry(screen2,textvariable=password_verify)
+password_entry1.place(x=600,y=280)
+
+Button(screen2,text=&quot;Login&quot;,width=&quot;30&quot;,height=&quot;2&quot;,font=bigfont,command=luser).pl
+ace(x=600,y=310)
+
+def close_escape():
+screen.destroy()
+
+def main_screen():
+global screen
+
+25
+
+global bigfont
+screen=Tk()
+screen.state(&#39;zoomed&#39;)
+
+screen.geometry(&quot;300x250&quot;)
+screen.title(&quot;Account Login Screen&quot;)
+picture=PhotoImage(file=&quot;C:\\Users\\Anagha\\Desktop\\proj\\login page.png&quot;)
+background=Label(image=picture)
+background.place(x=0,y=0,relwidth=1,relheight=1)
+bigfont=Font(family=&quot;Helvetica&quot;,size=13,weight=&quot;bold&quot;,slant=&quot;italic&quot;,underline=0,ove
+rstrike=0)
+Label(text=&#39;Welcome!&#39;,font=bigfont).pack()
+Button(text=&quot;Login&quot;,height=&quot;2&quot;,width=&quot;30&quot;,font=bigfont,command=login).place(x=57
+0,y=200)
+Label(text=&quot;&quot;).pack()
+Button(text=&quot;Register&quot;,height=&quot;2&quot;,width=&quot;30&quot;,font=bigfont,command=register).place
+(x=570,y=270)
+screen.mainloop()
+
+main_screen()
